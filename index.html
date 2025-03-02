@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramzan 2025 Sehri & Iftar Timetable</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('Ramzan.jpeg'); /* Transparent background */
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        h2 {
+            color: #333;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.4); /* Semi-transparent white background */
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+
+        }
+        th {
+            background: rgba(66, 229, 66 , 0.5);
+            color: white;
+            cursor: pointer;
+        }
+        tr:nth-child(even) {
+            background-color: rgba(242, 242, 242, 0.6); /* Semi-transparent even row background */
+        }
+        #search {
+            width: 30%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .dark-mode h2{
+            color : white !important;
+        }
+        .dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+        .dark-mode table {
+            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent dark background */
+            color: #fff;
+        }
+        .dark-mode th {
+            background-color: #000000;
+        }
+        .dark-mode tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent dark even row background */
+        }
+        .dark-mode #search {
+            background-color: #000000;
+            color: #fff;
+        }
+        .controls {
+            margin-bottom: 20px;
+        }
+        .btn{
+            padding: 5px;
+            width : 150px;
+            height: 50px;
+            color : white;
+            background-color: green;
+            border-radius: 4px;
+            right: 0px;
+        }
+        .epx{
+            padding: 6px;
+            width : 150px;
+            height: 50px;
+            color : white;
+            background-color: rgb(207, 12, 12);
+            border-radius: 4px;
+            right: 0px;
+
+        }
+        @media (max-width: 768px) {
+            table {
+                width: 100%;
+            }
+            #search {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <marquee><h2>Ramzan 2025 Sehri & Iftar Timetable</h2></marquee>
+
+    <div class="controls">
+        <input type="text" id="search" onkeyup="searchTable()" placeholder="Search by date or day">
+        <button class="btn" onclick="toggleDarkMode()">Dark Mode</button>
+        <button class="epx" onclick="exportToPDF()">Export to PDF</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th onclick="sortTable(0)">Ramzan</th>
+                <th onclick="sortTable(1)">Date</th>
+                <th onclick="sortTable(2)">Day</th>
+                <th onclick="sortTable(3)">Sehri Time</th>
+                <th onclick="sortTable(4)">Iftar Time</th>
+            </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+    </table>
+<footer>
+    <hr>
+    <div class="footer">
+        <h3>&copy; Designed By Mudasir Shariff || 2025  </h3>
+        <p>You can contact on :- shariffmudasirshariff@gmail.com || 8123649448</p>
+    </div>
+</footer>
+    <script>
+        const data = [
+            {ramzan: 1, date: "02-03-2025", day: "Sunday", sehri: "5:14 AM", iftar: "6:27 PM"},
+            {ramzan: 2, date: "03-03-2025", day: "Monday", sehri: "5:12 AM", iftar: "6:27 PM"},
+            {ramzan: 3, date: "04-03-2025", day: "Tuesday", sehri: "5:11 AM", iftar: "6:27 PM"},
+            {ramzan: 4, date: "05-03-2025", day: "Wednesday", sehri: "5:10 AM", iftar: "6:27 PM"},
+            {ramzan: 5, date: "06-03-2025", day: "Thursday", sehri: "5:08 AM", iftar: "6:28 PM"},
+            {ramzan: 6, date: "07-03-2025", day: "Friday", sehri: "5:07 AM", iftar: "6:28 PM"},
+            {ramzan: 7, date: "08-03-2025", day: "Saturday", sehri: "5:06 AM", iftar: "6:28 PM"},
+            {ramzan: 8, date: "09-03-2025", day: "Sunday", sehri: "5:05 AM", iftar: "6:28 PM"},
+            {ramzan: 9, date: "10-03-2025", day: "Monday", sehri: "5:03 AM", iftar: "6:28 PM"},
+            {ramzan: 10, date: "11-03-2025", day: "Tuesday", sehri: "5:02 AM", iftar: "6:28 PM"},
+            {ramzan: 11, date: "12-03-2025", day: "Wednesday", sehri: "5:01 AM", iftar: "6:28 PM"},
+            {ramzan: 12, date: "13-03-2025", day: "Thursday", sehri: "5:00 AM", iftar: "6:28 PM"},
+            {ramzan: 13, date: "14-03-2025", day: "Friday", sehri: "4:59 AM", iftar: "6:29 PM"},
+            {ramzan: 14, date: "15-03-2025", day: "Saturday", sehri: "4:57 AM", iftar: "6:29 PM"},
+            {ramzan: 15, date: "16-03-2025", day: "Sunday", sehri: "4:56 AM", iftar: "6:29 PM"},
+            {ramzan: 16, date: "17-03-2025", day: "Monday", sehri: "4:55 AM", iftar: "6:29 PM"},
+            {ramzan: 17, date: "18-03-2025", day: "Tuesday", sehri: "4:53 AM", iftar: "6:29 PM"},
+            {ramzan: 18, date: "19-03-2025", day: "Wednesday", sehri: "4:52 AM", iftar: "6:29 PM"},
+            {ramzan: 19, date: "20-03-2025", day: "Thursday", sehri: "4:50 AM", iftar: "6:29 PM"},
+            {ramzan: 20, date: "21-03-2025", day: "Friday", sehri: "4:49 AM", iftar: "6:29 PM"},
+            {ramzan: 21, date: "22-03-2025", day: "Saturday", sehri: "4:48 AM", iftar: "6:29 PM"},
+            {ramzan: 22, date: "23-03-2025", day: "Sunday", sehri: "4:47 AM", iftar: "6:29 PM"},
+            {ramzan: 23, date: "24-03-2025", day: "Monday", sehri: "4:45 AM", iftar: "6:29 PM"},
+            {ramzan: 24, date: "25-03-2025", day: "Tuesday", sehri: "4:44 AM", iftar: "6:29 PM"},
+            {ramzan: 25, date: "26-03-2025", day: "Wednesday", sehri: "4:42 AM", iftar: "6:29 PM"},
+            {ramzan: 26, date: "27-03-2025", day: "Thursday", sehri: "4:41 AM", iftar: "6:29 PM"},
+            {ramzan: 27, date: "28-03-2025", day: "Friday", sehri: "4:40 AM", iftar: "6:29 PM"},
+            {ramzan: 28, date: "29-03-2025", day: "Saturday", sehri: "4:38 AM", iftar: "6:30 PM"},
+            {ramzan: 29, date: "30-03-2025", day: "Sunday", sehri: "4:37 AM", iftar: "6:30 PM"},
+            {ramzan: 30, date: "31-03-2025", day: "Monday", sehri: "4:35 AM", iftar: "6:30 PM"},
+        ];
+
+        const tableBody = document.getElementById('table-body');
+        let isDarkMode = localStorage.getItem('darkMode') === 'true';
+
+        function loadTable() {
+            tableBody.innerHTML = '';
+            data.forEach(item => {
+                let row = `<tr>
+                    <td>${item.ramzan}</td>
+                    <td>${item.date}</td>
+                    <td>${item.day}</td>
+                    <td>${item.sehri}</td>
+                    <td>${item.iftar}</td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        function searchTable() {
+            let input = document.getElementById("search").value.toLowerCase();
+            let rows = document.querySelectorAll("tbody tr");
+
+            rows.forEach(row => {
+                let text = row.innerText.toLowerCase();
+                row.style.display = text.includes(input) ? "" : "none";
+            });
+        }
+
+        function sortTable(columnIndex) {
+            data.sort((a, b) => {
+                let keyA, keyB;
+                switch (columnIndex) {
+                    case 0: keyA = a.ramzan; keyB = b.ramzan; break;
+                    case 1: keyA = new Date(a.date.split('-').reverse().join('-'));
+                            keyB = new Date(b.date.split('-').reverse().join('-')); break;
+                    case 2: keyA = a.day; keyB = b.day; break;
+                    case 3: keyA = a.sehri; keyB = b.sehri; break;
+                    case 4: keyA = a.iftar; keyB = b.iftar; break;
+                }
+                if (keyA < keyB) return -1;
+                if (keyA > keyB) return 1;
+                return 0;
+            });
+            loadTable();
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            localStorage.setItem('darkMode', isDarkMode);
+        }
+
+        function filterByDay() {
+            let selectedDay = document.getElementById('day-filter').value;
+            let rows = document.querySelectorAll("tbody tr");
+
+            rows.forEach(row => {
+                let day = row.cells[2].innerText;
+                row.style.display = (selectedDay === 'all' || day === selectedDay) ? "" : "none";
+            });
+        }
+
+        function exportToPDF() {
+            window.print();
+        }
+
+        // Load dark mode preference
+        document.body.classList.toggle('dark-mode', isDarkMode);
+        loadTable();
+    </script>
+
+</body>
+</html>
